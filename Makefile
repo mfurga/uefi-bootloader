@@ -1,0 +1,43 @@
+# UEFI bootloader makefile.
+
+VERBOSE := 1
+
+ifeq ($(VERBOSE), 1)
+	Q :=
+else
+	Q := @
+endif
+
+CROSS_COMPILE := x86_64-w64-mingw32
+
+CC := $(CROSS_COMPILE)-gcc
+LD := $(CROSS_COMPILE)-ld
+NM := $(CROSS_COMPILE)-nm
+STRIP := $(CROSS_COMPILE)-strip
+OBJCOPY := $(CROSS_COMPILE)-objcopy
+OBJDUMP := $(CROSS_COMPILE)-objdump
+
+BUILD_DIR := build
+TARGET := $(BUILD_DIR)/BOOTX64.EFI
+
+SRCS := $(shell find * -type f -name '*.c')
+OBJS := $(SRCS:%.c=$(BUILD_DIR)/%.o)
+
+CFLAGS := -std=c17 -Wall -Wextra -Wpedantic -mno-red-zone -ffreestanding -nostdlib
+LDFLASGS := --subsystem 10 -e efi_main
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	@echo "Linking ..."
+	$(Q)$(LD) $(OBJS) -o $@ $(LDFLASGS)
+
+$(BUILD_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	@echo "Compiling $^"
+	$(Q)$(CC) $(CFLAGS) -c $< -o $@
+
+.PHONY: clean
+clean:
+	rm -rf $(BUILD_DIR)
+
