@@ -20,7 +20,7 @@ OBJDUMP := $(CROSS_COMPILE)-objdump
 BUILD_DIR := build
 TARGET := $(BUILD_DIR)/BOOTX64.EFI
 
-SRCS := $(shell find * -type f -name '*.c')
+SRCS := $(shell find src -type f -name '*.c')
 OBJS := $(SRCS:%.c=$(BUILD_DIR)/%.o)
 
 CFLAGS := -std=c17 -Wall -Wextra -Wpedantic -mno-red-zone -ffreestanding -nostdlib
