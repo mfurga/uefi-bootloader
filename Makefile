@@ -38,6 +38,11 @@ $(BUILD_DIR)/%.o: %.c
 	@echo "Compiling $^"
 	$(Q)$(CC) $(CFLAGS) -c $< -o $@
 
+.PHONY: run
+run: all
+	@tools/build_gpt.sh
+	qemu-system-x86_64 -bios bin/bios64.bin -net none -drive format=raw,unit=0,file=build/disk.img
+
 .PHONY: clean
 clean:
 	rm -rf $(BUILD_DIR)
