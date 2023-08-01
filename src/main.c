@@ -1,11 +1,11 @@
-#include "efi.h"
+#include <efi.h>
 
 EFI_STATUS EFIAPI efi_main(EFI_HANDLE ImageHandle,
                            EFI_SYSTEM_TABLE *SystemTable) {
   (void)ImageHandle;
 
   SystemTable->ConOut->SetAttribute(SystemTable->ConOut,
-                                    EFI_TEXT_ATTR(EFI_YELLOW, EFI_GREEN));
+                                    EFI_TEXT_ATTR(EFI_RED, EFI_BLACK));
 
   SystemTable->ConOut->ClearScreen(SystemTable->ConOut);
 

@@ -24,6 +24,7 @@ SRCS := $(shell find src -type f -name '*.c')
 OBJS := $(SRCS:%.c=$(BUILD_DIR)/%.o)
 
 CFLAGS := -std=c17 -Wall -Wextra -Wpedantic -mno-red-zone -ffreestanding -nostdlib
+CFLAGS += -Iinclude
 LDFLASGS := --subsystem 10 -e efi_main
 
 all: $(TARGET)
